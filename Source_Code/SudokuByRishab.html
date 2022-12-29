@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+<!--
+    Developer's Name : Rishab.H
+    Description : This is a hobby project for recreating sudoku game using javascript
+-->
+
+<html>
+
+    <head>
+
+        <title>Sudoku by Rishab</title>
+        <meta charset = "UTF-8">
+        <meta name = "viewport" content = "width = device-width initial-scale = 1.0 user-scalable = no">
+        
+        <style>
+            
+            body
+            {
+                font-family : 'Consolas', 'Arial', 'Times New Roman' ;
+                text-align : center ;
+                background-color : #ecf0f3 ;
+            }
+            h1
+            {
+                font-weight : bolder ;
+                font-style : italic ;
+                text-decoration :  underline dotted red  ;
+            }
+            hr
+            {
+                width : 600px ;
+            }
+            #ep
+            {
+                display : inline ;
+                font-style : italic ;
+                text-decoration :  underline dotted red  ;
+            }
+            #errors
+            {
+                display: inline ;
+                color : red ;
+            }
+            #board
+            {
+                width : 450px ;
+                height : 450px ; /* 50 by 50 pixel each square. */
+                background-color : white ;
+                margin : 0 auto ;
+                display : flex ;
+                flex-wrap : wrap ;
+            }
+            #digits
+            {
+                width : 450px ;
+                height : 50px ;
+                
+                margin : 0 auto ;
+                display : flex ;
+                flex-wrap : wrap ;
+            }
+            .tiles
+            {
+                width : 48px ;
+                height : 48px ;
+                border : 1px solid lightgray ;
+                /* For Text */
+                font-size : 20px ;
+                font-weight : bold ;
+                display : flex ;
+                justify-content : center ;
+                align-items : center ; /* To center horizontally and vertically. */
+            }
+            .number
+            {
+                width : 44px ;
+                height : 44px ;
+                border : 1px solid black ;
+                background-color : white ;
+                border-radius : 50% ;
+                margin : 2px;
+                /* For Text */
+                font-size : 20px ;
+                font-weight : bold ;
+                display : flex ;
+                justify-content : center ;
+                align-items : center ; /* To center horizontally and vertically. */
+            }
+            .number-selected
+            {
+                background-color : gray ;
+            }
+            .tile-start
+            {
+                background-color : #B2BEB5 ;
+            }
+            .horizontal-line
+            {
+                border-bottom : 1px solid black ;
+            }
+            .vertical-line
+            {
+                border-right : 1px solid black ;
+            }
+
+        </style>
+
+        <script>
+
+            var numSelected = null ;
+            var tileSelected = null ;
+            var errors = 0 ;
+            var board = [
+                "--74916-5",
+                "2---6-3-9",
+                "-----7-1-",
+                "-586----4",
+                "--3----9-",
+                "--62--187",
+                "9-4-7---2",
+                "67-83----",
+                "81--45---"
+            ] ;
+            var solution = [
+                "387491625",
+                "241568379",
+                "569327418",
+                "758619234",
+                "123784596",
+                "496253187",
+                "934176852",
+                "675832941",
+                "812945763"
+            ] ;
+
+            window.onload = () => {
+                setGame() ;
+            } ;
+
+            function setGame()
+            {
+                // Digits 1 to 9
+                for(let i = 1; i < 10; i++)
+                {
+                    
+                    let number = document.createElement("div") ;
+                    number.id = i ;
+                    number.innerText = i ;
+                    number.addEventListener("click", selectNumber) ;
+                    number.classList.add("number") ;
+                    document.getElementById("digits").appendChild(number) ;
+                }
+
+                //Board 9x9
+                for(let r = 0; r < 9; r++)
+                {
+                    for(let c = 0; c < 9; c++)
+                    {
+                        let tile = document.createElement("div") ;
+                        tile.id = r.toString() + "-" + c.toString() ;
+                        
+                        if(board[r][c] != "-")
+                        {
+                            tile.innerText = board[r][c] ;
+                            tile.classList.add("tile-start") ;
+                        }
+
+                        if(r==2 || r==5)
+                        {
+                            tile.classList.add("horizontal-line") ;
+                        }
+                        
+                        if(c==2 || c==5)
+                        {
+                            tile.classList.add("vertical-line") ;
+                        }
+                        
+                        tile.addEventListener("click", selectTile) ;
+                        tile.classList.add("tiles") ;
+                        document.getElementById("board").append(tile) ;
+                        
+                    }
+                }
+            }
+
+            function selectNumber()
+            {
+                if(numSelected != null)
+                {
+                    numSelected.classList.remove("number-selected") ;    
+                }
+                numSelected = this ;
+                numSelected.classList.add("number-selected") ;
+            }
+
+            function selectTile()
+            {
+                if(numSelected)
+                {
+                    if(this.innerText != "")
+                    {
+                        return ; // To avoid overwriiten the existing data.
+                    }
+
+                    // "0-0" "0-1" ... "3-1" ...
+                    let code = this.id.split("-") ; //["0", "0"]
+                    let r = parseInt(code[0]) ;
+                    let c = parseInt(code[1]) ;
+
+                    if(solution[r][c] == numSelected.id)
+                    {
+                        this.innerText = numSelected.id ;
+                    }
+
+                    else
+                    {
+                        errors++ ;
+                        document.getElementById("errors").innerText = errors ;
+                    }
+                }
+            }
+        </script>
+
+    </head>
+    
+    <body>
+
+        <h1>Sudoku by Rishab</h1>
+        <hr>
+        <h2 id = "ep" >No.of Errors :</h2>&nbsp&nbsp<h2 id = "errors">0</h2>
+        <br><br>
+        <!-- 9x9 Board -->
+        <div id = "board"></div>
+        <br>
+        <div id = "digits"></div>
+
+    </body>
+
+</html>
