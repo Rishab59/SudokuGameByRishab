@@ -12,6 +12,7 @@
         <title>Sudoku by Rishab</title>
         <meta charset = "UTF-8">
         <meta name = "viewport" content = "width = device-width initial-scale = 1.0 user-scalable = no">
+        <link rel = "shortcut icon" type = "image/png" href= "../Icon/letter-r.png">
         
         <style>
             
@@ -21,27 +22,32 @@
                 text-align : center ;
                 background-color : #ecf0f3 ;
             }
+            
             h1
             {
                 font-weight : bolder ;
                 font-style : italic ;
                 text-decoration :  underline dotted red  ;
             }
+            
             hr
             {
                 width : 600px ;
             }
+            
             #ep
             {
                 display : inline ;
                 font-style : italic ;
                 text-decoration :  underline dotted red  ;
             }
+            
             #errors
             {
                 display: inline ;
                 color : red ;
             }
+            
             #board
             {
                 width : 450px ;
@@ -51,6 +57,7 @@
                 display : flex ;
                 flex-wrap : wrap ;
             }
+            
             #digits
             {
                 width : 450px ;
@@ -60,6 +67,7 @@
                 display : flex ;
                 flex-wrap : wrap ;
             }
+            
             .tiles
             {
                 width : 48px ;
@@ -72,6 +80,7 @@
                 justify-content : center ;
                 align-items : center ; /* To center horizontally and vertically. */
             }
+            
             .number
             {
                 width : 44px ;
@@ -87,18 +96,22 @@
                 justify-content : center ;
                 align-items : center ; /* To center horizontally and vertically. */
             }
+            
             .number-selected
             {
                 background-color : gray ;
             }
+            
             .tile-start
             {
                 background-color : #B2BEB5 ;
             }
+            
             .horizontal-line
             {
                 border-bottom : 1px solid black ;
             }
+            
             .vertical-line
             {
                 border-right : 1px solid black ;
@@ -107,6 +120,16 @@
         </style>
 
         <script>
+
+            let docTitle = document.title ;
+            
+            window.addEventListener("blur", () => {
+                document.title = "Thanks For Visiting - Rishab" ;
+            }) ;
+
+            window.addEventListener("focus", () => {
+                document.title = docTitle ;
+            }) ;
 
             var numSelected = null ;
             var tileSelected = null ;
